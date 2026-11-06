@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b5cab">
+
+<title>حصر - نظام حصر ومقارنة الأسعار</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+  --primary:#0b5cab;
+  --primary-dark:#073b72;
+  --secondary:#16a085;
+  --danger:#d63031;
+  --warning:#f39c12;
+  --success:#159957;
+  --bg:#f3f6fa;
+  --card:#ffffff;
+  --text:#17202a;
+  --muted:#718096;
+  --border:#e3e8ef;
+  --shadow:0 8px 25px rgba(0,0,0,.07);
+}
+
+body{
+  margin:0;
+  font-family:
+    Tahoma,
+    Arial,
+    sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+button,
+input,
+select{
+  font-family:inherit;
+}
+
+.app{
+  min-height:100vh;
+  padding-bottom:80px;
+}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+  color:white;
+  padding:20px 18px 28px;
+  border-radius:0 0 28px 28px;
+  box-shadow:var(--shadow);
+}
+
+.header-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo-icon{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  background:rgba(255,255,255,.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+  font-weight:bold;
+}
+
+.logo h1{
+  margin:0;
+  font-size:21px;
+}
+
+.logo small{
+  display:block;
+  opacity:.8;
+  margin-top:3px;
+}
+
+.role-badge{
+  background:rgba(255,255,255,.15);
+  padding:8px 12px;
+  border-radius:20px;
+  font-size:12px;
+}
+
+.welcome{
+  margin-top:22px;
+}
+
+.welcome h2{
+  margin:0 0 7px;
+  font-size:25px;
+}
+
+.welcome p{
+  margin:0;
+  opacity:.85;
+  font-size:14px;
+}
+
+/* CONTENT */
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:18px;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+/* CARDS */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:var(--shadow);
+}
+
+.card-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+}
+
+.card-title h3{
+  margin:0;
+  font-size:17px;
+}
+
+.card-title span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* DASHBOARD */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.stat{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:17px;
+  box-shadow:var(--shadow);
+}
+
+.stat-icon{
+  font-size:23px;
+}
+
+.stat-number{
+  font-size:25px;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+}
+
+/* BUTTONS */
+.btn{
+  border:0;
+  border-radius:14px;
+  padding:13px 16px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
+  transition:.2s;
+}
+
+.btn:active{
+  transform:scale(.97);
+}
+
+.btn-primary{
+  background:var(--primary);
+  color:white;
+}
+
+.btn-success{
+  background:var(--success);
+  color:white;
+}
+
+.btn-danger{
+  background:var(--danger);
+  color:white;
+}
+
+.btn-light{
+  background:#eef3f8;
+  color:var(--text);
+}
+
+.btn-block{
+  width:100%;
+}
+
+.btn-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+/* QUICK ACTIONS */
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.quick{
+  border:1px solid var(--border);
+  background:white;
+  border-radius:18px;
+  padding:18px;
+  text-align:right;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+}
+
+.quick-icon{
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.quick strong{
+  display:block;
+  font-size:15px;
+}
+
+.quick small{
+  color:var(--muted);
+  display:block;
+  margin-top:5px;
+}
+
+/* FORMS */
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:7px;
+  font-weight:bold;
+  font-size:13px;
+}
+
+input,
+select{
+  width:100%;
+  border:1px solid #d8e0e9;
+  background:white;
+  border-radius:13px;
+  padding:13px;
+  font-size:15px;
+  outline:none;
+}
+
+input:focus,
+select:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(11,92,171,.1);
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+/* RESULT */
+.result-box{
+  border-radius:18px;
+  padding:18px;
+  background:#eef7ff;
+  border:1px solid #cfe5fb;
+  margin-top:15px;
+}
+
+.result-main{
+  font-size:31px;
+  font-weight:bold;
+  color:var(--primary);
+}
+
+.result-label{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.compare{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:15px;
+}
+
+.compare-item{
+  background:white;
+  border-radius:14px;
+  padding:13px;
+  border:1px solid var(--border);
+}
+
+.compare-item strong{
+  display:block;
+  margin-top:5px;
+  font-size:18px;
+}
+
+/* TABLE */
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+
+th,
+td{
+  padding:12px 9px;
+  border-bottom:1px solid var(--border);
+  text-align:right;
+  font-size:13px;
+}
+
+th{
+  background:#f5f8fb;
+}
+
+/* BADGES */
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.badge-success{
+  background:#e5f7ed;
+  color:#11753f;
+}
+
+.badge-danger{
+  background:#fde9e9;
+  color:#a51f1f;
+}
+
+.badge-warning{
+  background:#fff3dc;
+  color:#9a6400;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  right:0;
+  left:0;
+  background:white;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  padding:9px 5px calc(9px + env(safe-area-inset-bottom));
+  z-index:100;
+  box-shadow:0 -5px 20px rgba(0,0,0,.08);
+}
+
+.nav-btn{
+  border:0;
+  background:none;
+  color:#7b8794;
+  font-size:11px;
+  cursor:pointer;
+  padding:5px 10px;
+}
+
+.nav-btn span{
+  display:block;
+  font-size:22px;
+  margin-bottom:3px;
+}
+
+.nav-btn.active{
+  color:var(--primary);
+  font-weight:bold;
+}
+
+/* EMPTY */
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:30px 10px;
+}
+
+.empty-icon{
+  font-size:42px;
+  margin-bottom:10px;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:85px;
+  transform:translateX(-50%) translateY(20px);
+  background:#1f2933;
+  color:white;
+  padding:12px 18px;
+  border-radius:14px;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:200;
+  font-size:13px;
+  white-space:nowrap;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .container{
+    padding:14px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .header{
+    padding:18px 15px 25px;
+  }
+
+  .welcome h2{
+    font-size:22px;
+  }
+
+  .stats{
+    gap:9px;
+  }
+
+  .stat{
+    padding:13px;
+  }
+
+  .stat-number{
+    font-size:22px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="header">
+
+  <div class="header-top">
+
+    <div class="logo">
+      <div class="logo-icon">ح</div>
+
+      <div>
+        <h1>حصر</h1>
+        <small>نظام حصر ومقارنة الأسعار</small>
+      </div>
+    </div>
+
+    <div class="role-badge" id="roleBadge">
+      موظف
+    </div>
+
+  </div>
+
+  <div class="welcome">
+    <h2>مرحبًا بك 👋</h2>
+    <p>منصة ذكية لتنظيم عمليات حصر ومقارنة أسعار المنتجات.</p>
+  </div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard" class="page active">
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-icon">📦</div>
+      <div class="stat-number" id="productsCount">0</div>
+      <div class="stat-label">عدد المنتجات</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">📝</div>
+      <div class="stat-number" id="recordsCount">0</div>
+      <div class="stat-label">عمليات الحصر</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">📈</div>
+      <div class="stat-number" id="higherCount">0</div>
+      <div class="stat-label">أسعار أعلى</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">📉</div>
+      <div class="stat-number" id="lowerCount">0</div>
+      <div class="stat-label">أسعار أقل</div>
+    </div>
+
+  </div>
+
+
+  <div class="card" style="margin-top:16px">
+
+    <div class="card-title">
+      <h3>الوصول السريع</h3>
+      <span>إجراءات رئيسية</span>
+    </div>
+
+    <div class="quick-grid">
+
+      <div class="quick" onclick="showPage('record')">
+        <div class="quick-icon">📝</div>
+        <strong>بدء حصر جديد</strong>
+        <small>إدخال سعر ومقارنته</small>
+      </div>
+
+      <div class="quick" onclick="showPage('history')">
+        <div class="quick-icon">📋</div>
+        <strong>سجل الحصر</strong>
+        <small>عرض العمليات السابقة</small>
+      </div>
+
+      <div class="quick" onclick="showPage('products')">
+        <div class="quick-icon">📦</div>
+        <strong>المنتجات</strong>
+        <small>إدارة قاعدة المنتجات</small>
+      </div>
+
+      <div class="quick" onclick="showPage('manager')">
+        <div class="quick-icon">📊</div>
+        <strong>لوحة المدير</strong>
+        <small>إحصائيات ومقارنة</small>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-title">
+      <h3>آخر عمليات الحصر</h3>
+      <span>آخر 5 عمليات</span>
+    </div>
+
+    <div id="recentRecords"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= RECORD ================= -->
+
+<section id="record" class="page">
+
+  <div class="card">
+
+    <div class="card-title">
+      <h3>📝 حصر سعر جديد</h3>
+      <span>إدخال البيانات</span>
+    </div>
+
+    <div class="form-group">
+
+      <label>المنتج</label>
+
+      <select id="recordProduct" onchange="productSelected()">
+      </select>
+
+    </div>
+
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>سعر المنشأة</label>
+        <input
+          id="storePrice"
+          type="number"
+          step="0.01"
+          min="0"
+          placeholder="0.00"
+          oninput="calculateComparison()"
+        >
+      </div>
+
+      <div class="form-group">
+        <label>السعر المرجعي</label>
+        <input
+          id="referencePrice"
+          type="number"
+          step="0.01"
+          readonly
+        >
+      </div>
+
+    </div>
+
+
+    <div class="form-group">
+      <label>اسم المنشأة</label>
+      <input id="storeName" placeholder="مثال: أسواق المثال">
+    </div>
+
+
+    <div class="form-group">
+      <label>ملاحظات</label>
+      <input id="recordNotes" placeholder="ملاحظات اختيارية">
+    </div>
+
+
+    <div id="comparisonResult"></div>
+
+
+    <button
+      class="btn btn-primary btn-block"
+      style="margin-top:15px"
+      onclick="saveRecord()"
+    >
+      💾 حفظ عملية الحصر
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================= HISTORY ================= -->
+
+<section id="history" class="page">
+
+  <div class="card">
+
+    <div class="card-title">
+      <h3>📋 سجل الحصر</h3>
+      <span id="historyCount">0 عملية</span>
+    </div>
+
+    <div id="historyContent"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= PRODUCTS ================= -->
+
+<section id="products" class="page">
+
+  <div class="card">
+
+    <div class="card-title">
+      <h3>📦 قاعدة المنتجات</h3>
+      <span id="productTotal">0 منتج</span>
+    </div>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>اسم المنتج</label>
+        <input id="newProductName" placeholder="اسم المنتج">
+      </div>
+
+      <div class="form-group">
+        <label>المجموعة</label>
+        <input id="newProductGroup" placeholder="مثال: مواد غذائية">
+      </div>
+
+      <div class="form-group">
+        <label>السعر المرجعي</label>
+        <input
+          id="newProductPrice"
+          type="number"
+          step="0.01"
+          placeholder="0.00"
+        >
+      </div>
+
+    </div>
+
+    <button
+      class="btn btn-success btn-block"
+      onclick="addProduct()"
+    >
+      ＋ إضافة منتج
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <div id="productsContent"></div>
+
+  </div>
+
+</section
